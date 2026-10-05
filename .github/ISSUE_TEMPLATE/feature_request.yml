@@ -1,0 +1,47 @@
+name: Feature request
+description: Suggest a change to how the page looks or behaves
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the situation rather than the solution. That makes it much easier to find an implementation that works with the page rather than against it.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The situation, in your own words.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like to happen?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of the extension does this touch?
+      options:
+        - "Option 1: Hide the specifics"
+        - "Option 2: Classic layout"
+        - "The background photo setting"
+        - "Packaging or installing (Chrome / Firefox / Safari)"
+        - "Something else"
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+
+  - type: markdown
+    attributes:
+      value: |
+        Anything about the old myUNT that you remember? Screenshots of how it used to look are the single most useful thing you can bring to a classic-layout request.

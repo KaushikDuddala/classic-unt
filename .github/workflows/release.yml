@@ -1,0 +1,147 @@
+name: Release
+
+# Nothing is built on a normal push. Build a release by creating one on the Releases page (draft, then Publish) -- the packages get attached to it.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to build (e.g. v1.2.3)
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: build ${{ github.event.inputs.tag || github.event.release.tag_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.event.release.tag_name }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+      - run: npm test
+
+      - name: Check the version matches the tag
+        if: github.event_name == 'release'
+        run: |
+          set -eu
+          VERSION="${{ github.event.release.tag_name }}"
+          VERSION="${VERSION#v}"
+          for f in src/manifest.json manifests/firefox.json manifests/safari.json package.json; do
+            GOT=$(node -p "require('./$f').version")
+            if [ "$GOT" != "$VERSION" ]; then
+              echo "::error::$f says $GOT, tag says $VERSION"
+              exit 1
+            fi
+          done
+
+      - name: Check the changelog has an entry
+        if: github.event_name == 'release'
+        run: |
+          set -eu
+          VERSION="${{ github.event.release.tag_name }}"
+          VERSION="${VERSION#v}"
+          grep -q "## \[$VERSION\]" CHANGELOG.md || {
+            echo "::error::CHANGELOG.md has no section for $VERSION"
+            exit 1
+          }
+
+      - name: Chrome package
+        run: |
+          mkdir -p out
+          ( cd src && zip -q -r -X "$GITHUB_WORKSPACE/out/classic-unt-chrome.zip" . )
+
+      - name: Firefox package
+        run: |
+          rm -rf ffstage
+          mkdir ffstage
+          cp -R src/. ffstage/
+          cp manifests/firefox.json ffstage/manifest.json
+          ( cd ffstage && zip -q -r -X "$GITHUB_WORKSPACE/out/classic-unt-firefox.zip" . )
+
+      - name: Signed crx
+        id: crx
+        env:
+          CRX_PRIVATE_KEY: ${{ secrets.CRX_PRIVATE_KEY }}
+        run: |
+          set -eu
+          if [ -z "${CRX_PRIVATE_KEY:-}" ]; then
+            echo "CRX_PRIVATE_KEY not set, skipping"
+            exit 0
+          fi
+          printf '%s\n' "$CRX_PRIVATE_KEY" > "$RUNNER_TEMP/key.pem"
+          chmod 600 "$RUNNER_TEMP/key.pem"
+
+          BROWSER=""
+          for c in google-chrome google-chrome-stable chromium chromium-browser; do
+            command -v "$c" >/dev/null 2>&1 && { BROWSER="$c"; break; }
+          done
+          if [ -z "$BROWSER" ]; then
+            echo "no chrome or chromium on the runner, skipping"
+            exit 0
+          fi
+
+          rm -rf crxstage
+          mkdir crxstage
+          cp -R src/. crxstage/
+          VERSION=$(node -p "require('./package.json').version")
+          ( cd crxstage && "$BROWSER" --pack-extension="$PWD" \
+              --pack-extension-key="$RUNNER_TEMP/key.pem" \
+              --no-sandbox --disable-gpu >/dev/null 2>&1 ) || true
+
+          # chromium writes <dir>.crx next to the directory it was given
+          if [ -f crxstage.crx ]; then
+            mv crxstage.crx "out/classic-unt-$VERSION.crx"
+            echo "built=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::packing failed, no crx attached"
+          fi
+          rm -f "$RUNNER_TEMP/key.pem"
+
+      - name: Refuse to publish anything sensitive
+        run: |
+          set -eu
+          if grep -rlE 'BEGIN (RSA )?PRIVATE KEY' out/ 2>/dev/null | grep -q .; then
+            echo "::error::a private key ended up in the artifacts"
+            exit 1
+          fi
+          for z in out/*.zip; do
+            if unzip -l "$z" | grep -qiE '\.pem$|\.key$'; then
+              echo "::error::$(basename "$z") contains a key"
+              exit 1
+            fi
+          done
+          ls -la out/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: out/*
+          retention-days: 30
+
+      - name: Attach to the release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" out/* --clobber
+
+      - name: Summary
+        run: |
+          {
+            echo "### out/"
+            echo
+            for f in out/*; do echo "- \`$(basename "$f")\`"; done
+            echo
+            echo "Chrome zip goes to the Chrome Web Store (Google signs it)."
+            echo "Firefox zip goes to addons.mozilla.org."
+            echo "Safari is built locally with tools/build-safari.sh; it needs Xcode."
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,51 @@
+:root { --green: #00853d; --ink: #1f2933; --muted: #5b6672; --line: #dfe3ea; }
+
+* { box-sizing: border-box; }
+
+body {
+  width: 250px;
+  margin: 0;
+  padding: 12px;
+  background: rgb(241, 239, 247);
+  color: var(--ink);
+  font: 13px/1.45 Arial, Helvetica, sans-serif;
+}
+
+header { display: flex; align-items: center; gap: 8px; margin-bottom: 11px; }
+
+.mark {
+  display: block;
+  width: 24px; height: 24px;
+  border-radius: 3px;
+  flex: 0 0 auto;
+}
+
+.modes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+
+.modes button {
+  font: inherit; font-size: 12px; cursor: pointer;
+  padding: 7px 4px; border-radius: 3px;
+  border: 1px solid #c2c8d2; background: #fff; color: var(--ink);
+}
+
+.modes button:hover { border-color: var(--green); }
+.modes button[aria-checked="true"] {
+  background: var(--green); border-color: var(--green); color: #fff; font-weight: bold;
+}
+
+.note { margin: 9px 0 0; font-size: 12px; color: var(--muted); min-height: 17px; }
+
+.toggle {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 0 0; font-size: 13px; cursor: pointer;
+}
+
+input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--green); margin: 0; }
+
+.more {
+  display: block; margin-top: 12px; padding-top: 9px;
+  border-top: 1px solid var(--line);
+  color: var(--green); text-decoration: none; font-size: 12.5px;
+}
+
+.more:hover { text-decoration: underline; }

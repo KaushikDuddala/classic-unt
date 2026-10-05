@@ -1,0 +1,13 @@
+node_modules/
+
+keys/
+
+dist/
+
+tests/screenshots/
+
+/currentHTML.txt
+
+# OS noise
+.DS_Store
+Thumbs.db

@@ -1,0 +1,104 @@
+name: Bug report
+description: Something on the myUNT homepage looks wrong, or does not work
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing this. Two things that make a report much easier to act on:
+
+        - **Open the developer console first.** On the page with the problem, press <kbd>F12</kbd> (or <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd> on macOS) and look at the Console. A `Content script could not be loaded` error there explains most reports.
+        - **If a box is cut off or overlaps**, note your window width. That is a layout bug and the width is the first thing needed to reproduce it.
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: Chrome, Edge and Brave are all Chromium, so any of them counts.
+      options:
+        - Chrome
+        - Edge
+        - Brave
+        - Opera
+        - Firefox
+        - Safari
+    validations:
+      required: true
+
+  - type: input
+    id: browser-version
+    attributes:
+      label: Browser version
+      placeholder: "Chrome 141.0.7390.54"
+    validations:
+      required: true
+
+  - type: input
+    id: extension-source
+    attributes:
+      label: How did you install it?
+      description: Loaded unpacked from `src/`, or installed from a package?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Which mode were you in?
+      options:
+        - "Option 2: Classic layout (the default)"
+        - "Option 1: Hide the specifics"
+        - "Off"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect to see, and what did you see instead?
+    validations:
+      required: true
+
+  - type: input
+    id: window-width
+    attributes:
+      label: Window width in pixels
+      description: Only matters for layout or clipping bugs, but it is the fastest way to reproduce one.
+      placeholder: "1512"
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1. Load my.unt.edu
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Drag the image in. For a full-page look, use a browser capture rather than a window grab.
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output
+      description: Errors or warnings from the developer console. Paste the text, not a photo.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Anything already ruled out?
+      options:
+        - label: Reloaded the extension and hard-refreshed the page
+          required: false
+        - label: Tried turning the mode to Off, to see if the problem persists
+          required: false
+        - label: Checked it is not just my saved settings (Reset to defaults on the options page)
+          required: false

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>classic-unt</title>
+<link rel="icon" href="icons/icon32.png">
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+<header>
+  <img class="mark" src="icons/icon32.png" alt="" width="24" height="24">
+  <strong>classic-unt</strong>
+</header>
+
+<div class="modes" role="radiogroup" aria-label="Page style">
+  <button type="button" data-mode="privacy" role="radio">Hide specifics</button>
+  <button type="button" data-mode="classic" role="radio">Classic</button>
+  <button type="button" data-mode="off" role="radio">Off</button>
+</div>
+
+<p class="note" id="note"></p>
+
+<label class="toggle">
+  <input type="checkbox" id="bg">
+  <span>Remove background photo</span>
+</label>
+
+<label class="toggle" id="revealRow" hidden>
+  <input type="checkbox" id="reveal">
+  <span>Reveal everything</span>
+</label>
+
+<a class="more" href="#" id="options">All settings…</a>
+
+<script src="defaults.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

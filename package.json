@@ -1,0 +1,35 @@
+{
+  "name": "classic-unt",
+  "version": "1.0.0",
+  "private": true,
+  "description": "restyle my.unt.edu to classic or hide details",
+  "license": "MIT",
+  "author": "Kaushik Duddala",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KaushikDuddala/classic-unt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KaushikDuddala/classic-unt/issues"
+  },
+  "homepage": "https://github.com/KaushikDuddala/classic-unt#readme",
+  "scripts": {
+    "test": "node tests/manifests.test.js && node tests/forms.test.js && node tests/content.test.js && node tests/ui.test.js",
+    "test:content": "node tests/content.test.js",
+    "test:forms": "node tests/forms.test.js",
+    "test:manifests": "node tests/manifests.test.js",
+    "test:ui": "node tests/ui.test.js",
+    "preview": "node tests/preview.js",
+    "preview:pages": "node tests/preview-pages.js",
+    "measure": "node tests/preview.js && node tests/measure.js",
+    "check": "npm test && npm run measure",
+    "build": "tools/build.sh",
+    "build:chrome": "tools/build.sh chrome",
+    "build:firefox": "tools/build.sh firefox",
+    "build:safari": "tools/build-safari.sh"
+  },
+  "devDependencies": {
+    "js-yaml": "^5.4.2",
+    "jsdom": "^26.0.0"
+  }
+}
