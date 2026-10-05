@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>classic-unt options</title>
+<link rel="icon" href="icons/icon32.png">
+<link rel="stylesheet" href="options.css">
+</head>
+<body>
+
+<main class="wrap">
+  <header class="head">
+    <img class="mark" src="icons/icon48.png" alt="" width="38" height="38">
+    <div>
+      <h1>classic-unt</h1>
+      <p class="sub">Choose how my.unt.edu looks when you visit it.</p>
+    </div>
+  </header>
+
+  <section class="card">
+    <h2>Page style</h2>
+
+    <label class="opt">
+      <input type="radio" name="mode" value="privacy">
+      <span class="opt-body">
+        <span class="opt-title">Option 1: Hide the specifics</span>
+        <span class="opt-desc">Keeps today's design. Your GPA, balances, aid amounts, classes and task counts are covered up until you click them.</span>
+      </span>
+    </label>
+
+    <label class="opt">
+      <input type="radio" name="mode" value="classic">
+      <span class="opt-body">
+        <span class="opt-title">Option 2: Classic layout</span>
+        <span class="opt-desc">The old myUNT: a plain light background with one small box per section, carrying an icon and a name and nothing else.</span>
+      </span>
+    </label>
+
+    <label class="opt">
+      <input type="radio" name="mode" value="off">
+      <span class="opt-body">
+        <span class="opt-title">Off</span>
+        <span class="opt-desc">Leave my.unt.edu exactly as UNT publishes it.</span>
+      </span>
+    </label>
+  </section>
+
+  <section class="card" id="panel-privacy" hidden>
+    <h2>What to hide</h2>
+    <p class="hint">Anything hidden here is covered by a solid block. Hover it to read the value, click to keep it visible.</p>
+
+    <div class="checks">
+      <label><input type="checkbox" data-group="privacy" data-key="profile"> Student ID, photo and name</label>
+      <label><input type="checkbox" data-group="privacy" data-key="academics"> GPA, standing and prior term</label>
+      <label><input type="checkbox" data-group="privacy" data-key="billing"> Balance and payment due date</label>
+      <label><input type="checkbox" data-group="privacy" data-key="finaid"> Aid offered and award breakdown</label>
+      <label><input type="checkbox" data-group="privacy" data-key="classes"> Today's classes, cart and appointments</label>
+      <label><input type="checkbox" data-group="privacy" data-key="tasks"> Task counts</label>
+      <label><input type="checkbox" data-group="privacy" data-key="admissions"> Admissions status line</label>
+    </div>
+
+    <hr>
+
+    <label class="row">
+      <span>Also hide anything that looks like money, a date or an ID</span>
+      <input type="checkbox" data-group="privacy" data-key="heuristic">
+    </label>
+
+    <label class="row">
+      <span>Reveal everything</span>
+      <input type="checkbox" data-top="revealAll">
+    </label>
+    <p class="hint">Turn this on to check everything at once, then turn it off to cover it up again.</p>
+  </section>
+
+  <section class="card" id="panel-classic" hidden>
+    <h2>Classic layout</h2>
+
+    <label class="row">
+      <span>Show the Profile box</span>
+      <input type="checkbox" data-group="classic" data-key="showProfileTile">
+    </label>
+    <p class="hint">The old layout had no profile box. When you turn it on it appears as an empty box with no link. Tiles fill each row, so the number per row follows your window size.</p>
+  </section>
+
+  <section class="card">
+    <h2>Background</h2>
+    <label class="row">
+      <span>Remove the UNT background photo</span>
+      <input type="checkbox" data-top="removeBackground">
+    </label>
+    <p class="hint">Replaces the campus photo with a flat light background. This is the main visual difference between the current page and the old one.</p>
+  </section>
+
+  <section class="card actions">
+    <button type="button" id="reset">Reset to defaults</button>
+    <a class="btn-link" href="https://my.unt.edu/" target="_blank" rel="noreferrer">Open myUNT</a>
+  </section>
+
+  <p class="status" id="status" role="status"></p>
+</main>
+
+<script src="defaults.js"></script>
+<script src="options.js"></script>
+</body>
+</html>

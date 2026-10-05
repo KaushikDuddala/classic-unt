@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "classic-unt",
+  "version": "1.0.0",
+  "description": "restyle my.unt.edu to classic or hide details",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "classic-unt",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://my.unt.edu/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://my.unt.edu/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "all_frames": true,
+      "run_at": "document_start"
+    }
+  ]
+}

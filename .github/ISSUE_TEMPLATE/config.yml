@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security or privacy problem
+    url: https://github.com/KaushikDuddala/classic-unt/security/advisories/new
+    about: Report anything that could expose private data privately instead of in a public issue.
+  - name: Question or early idea
+    url: https://github.com/KaushikDuddala/classic-unt/discussions
+    about: Ask a question, or float an idea before turning it into a formal request.

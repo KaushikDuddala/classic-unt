@@ -1,0 +1,372 @@
+/* Both themes. Every rule is scoped to a class content.js puts on <html>, so
+   the page is untouched while the extension is off. */
+
+/* Redacted values. The text stays in the page under an opaque block, so it
+   cannot be read, selected or found; hover removes the block. Images take a
+   pseudo-element badly, so those fade instead. */
+
+.classic-unt-mask {
+  position: relative !important;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.classic-unt-mask::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: #d4d4de;
+  border-radius: 2px;
+}
+
+.classic-unt-mask:hover::after,
+.classic-unt-mask.classic-unt-revealed::after,
+html.classic-unt-reveal-all .classic-unt-mask::after { content: none; }
+
+html.classic-unt-mode-privacy img.classic-unt-mask {
+  opacity: 0 !important;
+  background: #d4d4de !important;
+}
+
+html.classic-unt-mode-privacy img.classic-unt-mask:hover,
+html.classic-unt-mode-privacy img.classic-unt-mask.classic-unt-revealed,
+html.classic-unt-reveal-all img.classic-unt-mask {
+  opacity: 1 !important;
+  background: transparent !important;
+}
+
+/* Background photo. content.js also sweeps for painted backgrounds at runtime,
+   so this list only needs to cover the common containers. */
+
+html.classic-unt-nobg body,
+html.classic-unt-nobg #PT_WRAPPER,
+html.classic-unt-nobg .ps_wrapper,
+html.classic-unt-nobg #PT_HEADER,
+html.classic-unt-nobg .ps_header,
+html.classic-unt-nobg #PT_MID_SECTION,
+html.classic-unt-nobg .ps_mid_section,
+html.classic-unt-nobg #PT_CONTENT,
+html.classic-unt-nobg #PT_MAIN,
+html.classic-unt-nobg .ps_pagecontainer,
+html.classic-unt-nobg .ps_pspagecontainer,
+html.classic-unt-nobg #PT_FOOTER,
+html.classic-unt-nobg .ps_footer,
+html.classic-unt-nobg .pt_homepage,
+html.classic-unt-nobg .nuitilegrid,
+html.classic-unt-nobg .ps_box-scrollarea,
+html.classic-unt-nobg .lptab-cont,
+html.classic-unt-nobg .ps_grid-div,
+html.classic-unt-nobg .ps_grid-body,
+html.classic-unt-nobg [data-classic-unt-nobg="1"] {
+  background-image: none !important;
+}
+
+/* what to put behind the tiles once the photo is gone (option 1) */
+html.classic-unt-mode-privacy.classic-unt-nobg body,
+html.classic-unt-mode-privacy.classic-unt-nobg #PT_WRAPPER,
+html.classic-unt-mode-privacy.classic-unt-nobg .ps_pagecontainer,
+html.classic-unt-mode-privacy.classic-unt-nobg .ps_pspagecontainer {
+  background-color: #f3f3f7 !important;
+}
+
+  /* Option 2: classic layout */
+
+html.classic-unt-mode-classic {
+  --classic-unt-tile: 240px;
+  --classic-unt-tile-h: 190px;
+  --classic-unt-gap: 24px;
+  --classic-unt-page-bg: rgb(241, 239, 247);
+}
+
+html.classic-unt-mode-classic body {
+  background-color: var(--classic-unt-page-bg) !important;
+  font-family: Arial, Helvetica, "Helvetica Neue", sans-serif !important;
+  font-size: 13px !important;
+  color: #333 !important;
+}
+
+html.classic-unt-mode-classic #PT_WRAPPER,
+html.classic-unt-mode-classic .ps_wrapper,
+html.classic-unt-mode-classic .ps_mid_section,
+html.classic-unt-mode-classic #PT_CONTENT,
+html.classic-unt-mode-classic .ps_content,
+html.classic-unt-mode-classic #PT_MAIN,
+html.classic-unt-mode-classic .ps_main,
+html.classic-unt-mode-classic .ps_pagecontainer,
+html.classic-unt-mode-classic .ps_pspagecontainer {
+  background-color: var(--classic-unt-page-bg) !important;
+}
+
+html.classic-unt-mode-classic .ps_box-group,
+html.classic-unt-mode-classic .psc_layout {
+  background-color: transparent !important;
+}
+
+/* --- header ------------------------------------------------------------- */
+
+html.classic-unt-mode-classic #PT_HEADER,
+html.classic-unt-mode-classic .ps_header {
+  background-color: #fff !important;
+  background-image: none !important;
+  border-bottom: 3px solid #00853d !important;
+  box-shadow: none !important;
+}
+
+html.classic-unt-mode-classic .ps_header_bar {
+  padding: 6px 14px !important;
+  border-radius: 0 !important;
+}
+
+html.classic-unt-mode-classic #win10hdrdivPT_PAGETITLE { display: block !important; }
+
+html.classic-unt-mode-classic #PT_PAGETITLE {
+  font-size: 20px !important;
+  font-weight: normal !important;
+  color: #00853d !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html.classic-unt-mode-classic .nuihdr_logo,
+html.classic-unt-mode-classic .ps_box-staticimg { line-height: 0 !important; }
+
+/* --- the tile area becomes a plain wrapping grid of boxes --------------- */
+
+/* The boxes carry a shadow that reaches past their own edge, and PeopleSoft
+   clips its content chain. Without this the right-most box loses the edge of
+   its shadow, which reads as the box being cut off. */
+html.classic-unt-mode-classic .ps_wrapper,
+html.classic-unt-mode-classic .ps_content,
+html.classic-unt-mode-classic .ps_main,
+html.classic-unt-mode-classic .ps_pagecontainer,
+html.classic-unt-mode-classic .ps_pspagecontainer,
+html.classic-unt-mode-classic .psc_panel-content,
+html.classic-unt-mode-classic .psc_panel-contentinterior,
+html.classic-unt-mode-classic .ps_box-scrollarea,
+html.classic-unt-mode-classic .ps_box-scrollarea-row {
+  overflow: visible !important;
+}
+
+/* The tile area becomes a plain block; content.js moves the tiles into a
+   .classic-unt-tile-grid of its own so the page's grid CSS cannot interfere.
+   The horizontal padding leaves room for the shadow on the outer boxes. */
+html.classic-unt-mode-classic .ps_box-scrollarea-row.lptab-cont,
+html.classic-unt-mode-classic .lptab-cont {
+  display: block !important;
+  float: none !important;
+  white-space: normal !important;
+  width: auto !important;
+  max-width: 100% !important;
+  margin: 0;
+  padding: 20px 22px 34px !important;
+}
+
+/* the grid we own: as many boxes per row as fit, evenly stretched */
+html.classic-unt-mode-classic .classic-unt-tile-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(var(--classic-unt-tile), 1fr));
+  grid-auto-rows: minmax(var(--classic-unt-tile-h), auto);
+  gap: var(--classic-unt-gap);
+  align-content: start;
+  justify-content: stretch;
+  position: static !important;
+  float: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+html.classic-unt-mode-classic .nuilpcont,
+html.classic-unt-mode-classic .nuilppnl,
+html.classic-unt-mode-classic .lpnavigation,
+html.classic-unt-mode-classic .ps_box-group.psc_layout.nuilpcont,
+html.classic-unt-mode-classic .ps_box-scrollarea.lptabpnl {
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Once content.js has moved the tiles into our own grid, the page's grid
+   scaffolding is empty, so hide it. Driven by a class rather than :has():
+   an engine without :has() support would drop this whole rule. */
+html.classic-unt-mode-classic .classic-unt-tiles-moved .ps_grid-row,
+html.classic-unt-mode-classic .classic-unt-tiles-moved .ps_grid-cell,
+html.classic-unt-mode-classic .classic-unt-tiles-moved .ps_grid-div,
+html.classic-unt-mode-classic .classic-unt-tiles-moved .nuitilegrid,
+html.classic-unt-mode-classic .lptab-cont .ps_box-grid-header,
+html.classic-unt-mode-classic .lptab-cont .ps_box-grid-title,
+html.classic-unt-mode-classic .lptab-cont .ps_box-grid-header_bar,
+html.classic-unt-mode-classic .lptab-cont > div[id^="win10divINSULATOR"] {
+  display: none !important;
+}
+
+/* "Selected Homepage Settings" and the "no tiles" placeholder. These use
+   class names on purpose: PeopleSoft ids contain "$", which is not valid in
+   an unquoted CSS id selector, and one bad selector voids the whole rule. */
+html.classic-unt-mode-classic .lppagehdr { display: none !important; }
+html.classic-unt-mode-classic .lpnotile { display: none !important; }
+html.classic-unt-mode-classic #win10divPT_PANEL2_TITLE { display: none !important; }
+
+/* per-tile PeopleSoft buttons (lock / action / resize) */
+html.classic-unt-mode-classic .lptab-cont .ps_grid-cell > div[id^="win10divPTNUI_LAND_REC_$46$"],
+html.classic-unt-mode-classic .ps_box-grouplet .psc_fullsize_button,
+html.classic-unt-mode-classic .nuilp .psc_fullsize_button,
+html.classic-unt-mode-classic .nuilp .nuitileclose,
+html.classic-unt-mode-classic .nuilp .nuiselmove,
+html.classic-unt-mode-classic .nuilp .nuiresize_btn {
+  display: none !important;
+}
+
+html.classic-unt-mode-classic .nuilp > .ps_box-grouplet { display: none !important; }
+
+/* --- the box ------------------------------------------------------------ */
+
+html.classic-unt-mode-classic .nuilp {
+  display: block !important;
+  box-sizing: border-box !important;
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  /* The page positions tiles itself for drag/resize and for the horizontal
+     homepage swipe. Neutralise that, otherwise a tile can be laid out over
+     the whole panel instead of sitting in its own grid cell. */
+  position: static !important;
+  float: none !important;
+  transform: none !important;
+  overflow: visible !important;
+  background-color: #fff !important;
+  background-image: none !important;
+  border: 2px solid #e3e3ec !important;
+  border-radius: 14px !important;
+  box-shadow: 0 3px 10px rgba(20, 24, 40, .10), 0 1px 3px rgba(20, 24, 40, .06) !important;
+  color: #333 !important;
+  cursor: pointer;
+  transition: border-color .12s ease, box-shadow .12s ease;
+}
+
+html.classic-unt-mode-classic .nuilp:hover {
+  border-color: #00853d !important;
+  box-shadow: 0 8px 22px rgba(20, 24, 40, .16), 0 2px 5px rgba(20, 24, 40, .08) !important;
+}
+
+html.classic-unt-mode-classic .nuilp:focus,
+html.classic-unt-mode-classic .nuilp:focus-visible {
+  outline: 2px solid #00853d !important;
+  outline-offset: 1px !important;
+}
+
+html.classic-unt-mode-classic .nuilp[tabindex="-1"] { cursor: default; }
+
+/* the injected icon + label */
+html.classic-unt-mode-classic .classic-unt-box {
+  display: flex !important;
+  flex-direction: column;
+  align-items: stretch;
+  height: 100%;
+  min-height: 186px;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: none !important;
+  border: 0 !important;
+}
+
+html.classic-unt-mode-classic .classic-unt-label {
+  display: block;
+  flex: 0 0 auto;
+  padding: 14px 16px 0;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.25;
+  text-align: left;
+  color: #1f2933;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+html.classic-unt-mode-classic .nuilp:hover .classic-unt-label {
+  color: #00853d;
+  text-decoration: underline;
+}
+
+html.classic-unt-mode-classic .classic-unt-icon {
+  display: flex !important;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px 18px;
+  color: #00853d;
+}
+
+html.classic-unt-mode-classic .classic-unt-icon svg {
+  display: block;
+  width: 68px;
+  height: 68px;
+  max-width: 100%;
+  max-height: 92px;
+}
+
+/* keep the accessible name of each tile, drop the visual duplicate */
+html.classic-unt-mode-classic .nuilp > .ps_groupleth {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* --- profile tile is opt-in -------------------------------------------- */
+
+html.classic-unt-mode-classic:not(.classic-unt-show-profile) .GBSA_profile-header-row {
+  display: none !important;
+}
+
+/* --- homepage selector / pagination ------------------------------------ */
+
+html.classic-unt-mode-classic .lphomepage_selector .ps-button,
+html.classic-unt-mode-classic .ps-button {
+  border-radius: 0 !important;
+  font-size: 12px !important;
+}
+
+html.classic-unt-mode-classic .lphomepage_selector .ps-button {
+  background-color: #fff !important;
+  border: 1px solid #c9c9d2 !important;
+  color: #333 !important;
+}
+
+html.classic-unt-mode-classic .lpnav-pagenation { margin: 0 0 4px !important; }
+html.classic-unt-mode-classic .lpnav-homepage { margin: 0 0 10px !important; }
+
+/* --- footer ------------------------------------------------------------- */
+
+html.classic-unt-mode-classic #PT_FOOTER,
+html.classic-unt-mode-classic .ps_footer {
+  background-color: #00853d !important;
+  background-image: none !important;
+  border-top: 0 !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+/* --- misc chrome that has no place in the old look --------------------- */
+
+html.classic-unt-mode-classic .pt_qab-popup,
+html.classic-unt-mode-classic #win10divPTNUI_LAND_WRK_GROUPBOX9,
+html.classic-unt-mode-classic .psc_tile_livedata { display: none !important; }
