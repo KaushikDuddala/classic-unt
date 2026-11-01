@@ -29,7 +29,7 @@
     "build:safari": "tools/build-safari.sh"
   },
   "devDependencies": {
-    "js-yaml": "^5.4.2",
+    "js-yaml": "^5.5.0",
     "jsdom": "^26.0.0"
   }
 }
